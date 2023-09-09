@@ -1,0 +1,26 @@
+name: Rust WASM4
+
+on:
+  push:
+    branches: [ "master", "test" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    
+    - name: Install wasm4
+      run: npm install -g wasm4 
+
+
+    - name: Build
+      run: cargo build --release
