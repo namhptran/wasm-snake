@@ -1,5 +1,4 @@
 name: Build WASM4 Cart
-description: Build a WASM4 cart from a Rust project
 
 on:
   pull_request:
