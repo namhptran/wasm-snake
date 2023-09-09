@@ -17,10 +17,12 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
-    
+
     - name: Install wasm4
       run: npm install -g wasm4 
 
+    - name: Install wasm4-unknown-unknown target
+      run: rustup target add wasm32-unknown-unknown
 
     - name: Build
       run: cargo build --release
