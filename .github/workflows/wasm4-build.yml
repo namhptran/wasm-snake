@@ -25,13 +25,4 @@ jobs:
         run: rustup target add wasm32-unknown-unknown
   
       - name: Build
-        run: cargo build --release
-  
-      - name: Install binaryen
-        run: sudo apt-get install -y binaryen
-  
-      - name: Optimise cart
-        run: wasm-opt target/wasm32-unknown-unknown/release/cart.wasm -o cart-opt.wasm -Oz --strip-dwarf --strip-producers --zero-filled-memory
-  
-      - name: Bundle cart
-        run: w4 bundle cart-opt.wasm --title "Snake" --html index.html
+        run: cargo build --verbose
