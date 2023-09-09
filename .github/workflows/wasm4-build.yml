@@ -1,28 +1,16 @@
-name: Rust WASM4
+name: Build WASM4 Cart
 
 on:
-  push:
-    branches: [ "master", "test" ]
+  pull_request:
+    branches: [ "master" ]
 
   workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -47,14 +35,3 @@ jobs:
   
       - name: Bundle cart
         run: w4 bundle cart-opt.wasm --title "Snake" --html index.html
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
