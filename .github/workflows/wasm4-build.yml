@@ -1,0 +1,37 @@
+name: Build WASM4 Cart
+
+on:
+  pull_request:
+    branches: [ "master" ]
+
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+  
+      - name: Install wasm4
+        run: npm install -g wasm4 
+  
+      - name: Install wasm4-unknown-unknown target
+        run: rustup target add wasm32-unknown-unknown
+  
+      - name: Build
+        run: cargo build --release
+  
+      - name: Install binaryen
+        run: sudo apt-get install -y binaryen
+  
+      - name: Optimise cart
+        run: wasm-opt target/wasm32-unknown-unknown/release/cart.wasm -o cart-opt.wasm -Oz --strip-dwarf --strip-producers --zero-filled-memory
+  
+      - name: Bundle cart
+        run: w4 bundle cart-opt.wasm --title "Snake" --html index.html

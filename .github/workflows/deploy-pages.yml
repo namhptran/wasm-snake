@@ -1,8 +1,8 @@
-name: Rust WASM4
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ "master", "test" ]
+    branches: [ "master" ]
 
   workflow_dispatch:
 
