@@ -13,7 +13,19 @@ permissions:
   contents: write
 
 jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+    
+      - name: Run rustfmt
+        run: cargo fmt
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore: apply rustfmt" 
   build:
+    needs: format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -27,13 +39,7 @@ jobs:
       - name: Set wasm target
         run: rustup target add wasm32-unknown-unknown
 
-      - name: Run rustfmt
-        run: cargo fmt
-
       - name: Build
         run: cargo build --verbose
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "chore: apply rustfmt" 
 
