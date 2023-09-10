@@ -68,14 +68,11 @@ impl Game {
 
         if just_pressed & wasm4::BUTTON_LEFT != 0 {
             self.snake.left();
-        }
-        else if just_pressed & wasm4::BUTTON_RIGHT != 0 {
+        } else if just_pressed & wasm4::BUTTON_RIGHT != 0 {
             self.snake.right();
-        }
-        else if just_pressed & wasm4::BUTTON_UP != 0 {
+        } else if just_pressed & wasm4::BUTTON_UP != 0 {
             self.snake.up();
-        }
-        else if just_pressed & wasm4::BUTTON_DOWN != 0 {
+        } else if just_pressed & wasm4::BUTTON_DOWN != 0 {
             self.snake.down();
         }
 
