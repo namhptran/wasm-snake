@@ -77,7 +77,9 @@ impl Game {
             self.snake.up();
         } else if just_pressed & wasm4::BUTTON_DOWN != 0 {
             self.snake.down();
-        } else if just_pressed & wasm4::BUTTON_2 != 0 {self.reset();}
+        } else if just_pressed & wasm4::BUTTON_2 != 0 {
+            self.reset();
+        }
 
         self.prev_gamepad = gamepad;
     }
