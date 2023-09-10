@@ -9,6 +9,9 @@ on:
 env:
   CARGO_TERM_COLOR: always
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,8 +24,16 @@ jobs:
       - name: Install wasm4
         run: npm install -g wasm4 
   
-      - name: Install wasm4-unknown-unknown target
+      - name: Set wasm target
         run: rustup target add wasm32-unknown-unknown
-  
+
+      - name: Run rustfmt
+        run: cargo fmt --all -- --check
+
       - name: Build
         run: cargo build --verbose
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore: apply rustfmt" 
+
