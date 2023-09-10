@@ -1,6 +1,6 @@
 use crate::palette::set_draw_color;
 use crate::snake::{Point, Snake};
-use crate::wasm4;
+use crate::wasm4::{self, text};
 use fastrand::Rng;
 
 const FRUIT_SPRITE: [u8; 16] = [
@@ -34,7 +34,10 @@ impl Game {
         self.input();
 
         if self.snake.is_dead() {
-            // Do something
+            set_draw_color(0x43);
+            text("You are dead!", 25, 65);
+            text(b"Press \x81 to restart", 8, 75);
+            return;
         }
 
         if self.frame_count % 15 == 0 {
@@ -74,8 +77,18 @@ impl Game {
             self.snake.up();
         } else if just_pressed & wasm4::BUTTON_DOWN != 0 {
             self.snake.down();
+        } else if just_pressed & wasm4::BUTTON_2 != 0 {
+            self.reset();
         }
 
         self.prev_gamepad = gamepad;
+    }
+
+    pub fn reset(&mut self) {
+        self.snake = Snake::new();
+        self.frame_count = 0;
+        self.prev_gamepad = 0;
+        self.fruit.x = self.rng.i32(0..20);
+        self.fruit.y = self.rng.i32(0..20);
     }
 }
